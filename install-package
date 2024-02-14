@@ -1,0 +1,16 @@
+# List of server names or IP addresses where you want to install the package
+$servers = @("server1", "server2", "server3")
+
+# Name of the package you want to install
+$packageName = "YourPackageName"
+
+foreach ($server in $servers) {
+    Write-Host "Installing $packageName on $server"
+    $session = New-PSSession -ComputerName $server
+
+    # Replace "Install-PackageCommand" with the actual command to install the package
+    Invoke-Command -Session $session -ScriptBlock {
+        Install-PackageCommand $using:packageName
+    }
+    Remove-PSSession $session
+}
