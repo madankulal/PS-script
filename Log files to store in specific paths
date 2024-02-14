@@ -1,0 +1,25 @@
+# Define the source directory where connection.log files are located
+$sourceDirectory = "C:\Path\To\Source\Directory"
+
+# Define the destination directory where you want to store the connection.log files
+$destinationDirectory = "C:\Path\To\Destination\Directory"
+
+# Check if the source directory exists
+if (-not (Test-Path $sourceDirectory)) {
+    Write-Host "Source directory not found: $sourceDirectory"
+    exit
+}
+
+# Check if the destination directory exists, if not, create it
+if (-not (Test-Path $destinationDirectory)) {
+    New-Item -ItemType Directory -Force -Path $destinationDirectory
+}
+
+# Copy connection.log files from source directory to destination directory
+$files = Get-ChildItem -Path $sourceDirectory -Filter "connection.log" -File
+foreach ($file in $files) {
+    Copy-Item -Path $file.FullName -Destination $destinationDirectory
+    Write-Host "Copied $($file.Name) to $destinationDirectory"
+}
+
+Write-Host "Script execution completed."
